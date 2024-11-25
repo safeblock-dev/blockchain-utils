@@ -2,7 +2,7 @@ import Address from "./address"
 import Amount from "./amount"
 import ethersProvider, { reconfigureProvidersList } from "./ethers-provider"
 import cast from "./utils/cast"
-import { arbitrum, avalanche, bnb, mainnet, evmNetworksList, optimism, networksList } from "./networks"
+import { arbitrum, avalanche, bnb, mainnet, matic, ton, tron, evmNetworksList, optimism, networksList } from "./networks"
 
 export {
   arbitrum,
@@ -10,6 +10,9 @@ export {
   bnb,
   mainnet,
   optimism,
+  matic,
+  ton,
+  tron,
   evmNetworksList,
   networksList,
 
