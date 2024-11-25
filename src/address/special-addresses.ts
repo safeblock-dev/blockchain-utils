@@ -27,6 +27,8 @@ export enum AddressType {
   Unknown
 }
 
+export type AddressLike = string | { toString: () => string }
+
 /**
  * A class containing common special addresses used across multiple blockchains.
  */

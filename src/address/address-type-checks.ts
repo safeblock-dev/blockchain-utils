@@ -1,5 +1,5 @@
-import { AddressLike, getAddress } from "ethers"
-import SpecialAddresses, { AddressType } from "./special-addresses"
+import { getAddress } from "ethers"
+import SpecialAddresses, { AddressLike, AddressType } from "./special-addresses"
 
 /**
  * A utility class for performing blockchain address type checks and comparisons.
