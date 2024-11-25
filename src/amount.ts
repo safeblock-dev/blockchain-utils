@@ -42,7 +42,78 @@ export default class Amount {
     return new Amount(amount, decimalPlaces, readable)
   }
 
+  /**
+   * Select one of specified amounts
+   *
+   * @param {Amount} amounts list of amounts
+   * @returns {Amount} resulting amount or undefined
+   */
+  public static select(...amounts: Amount[]): Amount | undefined {
+    for (const amount of amounts) {
+      if (!amount || !Amount.isAmount(amount)) continue
+
+      return amount
+    }
+  }
+
+  /**
+   * Check if specified value is amount
+   *
+   * @param {AnyAmountType} amount value
+   * @returns {boolean} true when amount
+   */
+  public static isAmount(amount: AnyAmountType): boolean {
+    return String(amount).toLowerCase() !== "nan"
+      && Number(String(amount)) < Number.POSITIVE_INFINITY
+      && Number(String(amount)) > Number.NEGATIVE_INFINITY
+  }
+
   // Math operations
+
+  /**
+   * TBA
+   * @param {AnyAmountType} amount
+   * @returns {boolean}
+   */
+  public lt(amount: AnyAmountType): boolean {
+    return this.#amount < Amount.from(amount, 18, false).toBigInt()
+  }
+
+  /**
+   * TBA
+   * @param {AnyAmountType} amount
+   * @returns {boolean}
+   */
+  public gt(amount: AnyAmountType): boolean {
+    return this.#amount > Amount.from(amount, 18, false).toBigInt()
+  }
+
+  /**
+   * TBA
+   * @param {AnyAmountType} amount
+   * @returns {boolean}
+   */
+  public eq(amount: AnyAmountType): boolean {
+    return this.#amount === Amount.from(amount, 18, false).toBigInt()
+  }
+
+  /**
+   * TBA
+   * @param {AnyAmountType} amount
+   * @returns {boolean}
+   */
+  public lte(amount: AnyAmountType): boolean {
+    return this.lt(amount) || this.eq(amount)
+  }
+
+  /**
+   * TBA
+   * @param {AnyAmountType} amount
+   * @returns {boolean}
+   */
+  public gte(amount: AnyAmountType): boolean {
+    return this.gt(amount) || this.eq(amount)
+  }
 
   /**
    * Adds another amount to the current amount.
@@ -52,7 +123,7 @@ export default class Amount {
    */
   public add(amount: AnyAmountType): Amount {
     return Amount.from(
-      Amount.from(amount, 0, false).toBigInt() + this.#amount,
+      Amount.from(amount, 18, false).toBigInt() + this.#amount,
       this.#decimalPlaces,
       false
     )
@@ -66,7 +137,7 @@ export default class Amount {
    */
   public sub(amount: AnyAmountType): Amount {
     return Amount.from(
-      this.#amount - Amount.from(amount, 0, false).toBigInt(),
+      this.#amount - Amount.from(amount, 18, false).toBigInt(),
       this.#decimalPlaces,
       false
     )
@@ -80,7 +151,7 @@ export default class Amount {
    */
   public mul(amount: AnyAmountType): Amount {
     return Amount.from(
-      Amount.from(amount, 0, false).toBigInt() * this.#amount,
+      Amount.from(amount, 18, false).toBigInt() * this.#amount,
       this.#decimalPlaces,
       false
     )
@@ -94,7 +165,7 @@ export default class Amount {
    */
   public div(amount: AnyAmountType): Amount {
     return Amount.from(
-      this.#amount / Amount.from(amount, 0, false).toBigInt(),
+      this.#amount / Amount.from(amount, 18, false).toBigInt(),
       this.#decimalPlaces,
       false
     )
