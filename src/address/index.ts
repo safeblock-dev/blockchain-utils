@@ -11,7 +11,7 @@ export default class Address extends AddressActions {
    * The internally stored address value.
    * @private
    */
-  private readonly _address: string
+  private readonly address: string
 
   /**
    * Creates a new `Address` instance after validating the address type.
@@ -31,7 +31,7 @@ export default class Address extends AddressActions {
     if (addressType === AddressType.Unknown) throw new Error("Unknown address type")
 
     // Store the address as a string
-    this._address = address.toString()
+    this.address = address.toString()
   }
 
   /**
@@ -54,7 +54,7 @@ export default class Address extends AddressActions {
    * @returns `true` if the addresses are equal, otherwise `false`.
    */
   public equalTo(address: AddressLike): boolean {
-    return AddressTypeChecks.equal(address, this._address)
+    return AddressTypeChecks.equal(address, this.address)
   }
 
   // Conversions
@@ -65,7 +65,7 @@ export default class Address extends AddressActions {
    * @returns The string representation of the address.
    */
   public toString(): string {
-    return this._address
+    return this.address
   }
 
   // Type checks
@@ -76,7 +76,7 @@ export default class Address extends AddressActions {
    * @returns `true` if the address is a TON address, otherwise `false`.
    */
   public isTon(): boolean {
-    return AddressTypeChecks.isTon(this._address)
+    return AddressTypeChecks.isTon(this.address)
   }
 
   /**
@@ -85,7 +85,7 @@ export default class Address extends AddressActions {
    * @returns `true` if the address is a TRON address, otherwise `false`.
    */
   public isTron(): boolean {
-    return AddressTypeChecks.isTron(this._address)
+    return AddressTypeChecks.isTron(this.address)
   }
 
   /**
@@ -94,6 +94,6 @@ export default class Address extends AddressActions {
    * @returns `true` if the address is an Ethereum address, otherwise `false`.
    */
   public isEthereum(): boolean {
-    return AddressTypeChecks.isEthereum(this._address)
+    return AddressTypeChecks.isEthereum(this.address)
   }
 }

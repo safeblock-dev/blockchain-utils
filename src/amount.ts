@@ -3,8 +3,8 @@ import { ethers } from "ethers"
 type AnyAmountType = number | string | BigInt | ethers.BigNumberish | Amount
 
 export default class Amount {
-  private readonly _amount = BigInt(0)
-  private readonly _decimalPlaces: number = 0
+  private readonly amount = BigInt(0)
+  readonly #decimalPlaces: number = 0
 
   /**
    * Creates a new `Amount` instance.
@@ -16,10 +16,10 @@ export default class Amount {
   constructor(amount: AnyAmountType, decimalPlaces: number, readable?: boolean) {
     const isReadable = this.isReadable(amount, readable)
 
-    this._amount = isReadable
+    this.amount = isReadable
       ? BigInt((Number(String(amount)) * 10 ** decimalPlaces).toFixed(0))
       : BigInt(String(amount))
-    this._decimalPlaces = decimalPlaces
+    this.#decimalPlaces = decimalPlaces
   }
 
   public static from(amount: Amount): Amount
@@ -76,7 +76,7 @@ export default class Amount {
    * @returns {boolean}
    */
   public lt(amount: AnyAmountType): boolean {
-    return this._amount < Amount.from(amount, 18, false).toBigInt()
+    return this.amount < Amount.from(amount, 18, false).toBigInt()
   }
 
   /**
@@ -85,7 +85,7 @@ export default class Amount {
    * @returns {boolean}
    */
   public gt(amount: AnyAmountType): boolean {
-    return this._amount > Amount.from(amount, 18, false).toBigInt()
+    return this.amount > Amount.from(amount, 18, false).toBigInt()
   }
 
   /**
@@ -94,7 +94,7 @@ export default class Amount {
    * @returns {boolean}
    */
   public eq(amount: AnyAmountType): boolean {
-    return this._amount === Amount.from(amount, 18, false).toBigInt()
+    return this.amount === Amount.from(amount, 18, false).toBigInt()
   }
 
   /**
@@ -123,8 +123,8 @@ export default class Amount {
    */
   public add(amount: AnyAmountType): Amount {
     return Amount.from(
-      Amount.from(amount, 18, false).toBigInt() + this._amount,
-      this._decimalPlaces,
+      Amount.from(amount, 18, false).toBigInt() + this.amount,
+      this.#decimalPlaces,
       false
     )
   }
@@ -137,8 +137,8 @@ export default class Amount {
    */
   public sub(amount: AnyAmountType): Amount {
     return Amount.from(
-      this._amount - Amount.from(amount, 18, false).toBigInt(),
-      this._decimalPlaces,
+      this.amount - Amount.from(amount, 18, false).toBigInt(),
+      this.#decimalPlaces,
       false
     )
   }
@@ -151,8 +151,8 @@ export default class Amount {
    */
   public mul(amount: AnyAmountType): Amount {
     return Amount.from(
-      Amount.from(amount, 18, false).toBigInt() * this._amount,
-      this._decimalPlaces,
+      Amount.from(amount, 18, false).toBigInt() * this.amount,
+      this.#decimalPlaces,
       false
     )
   }
@@ -165,8 +165,8 @@ export default class Amount {
    */
   public div(amount: AnyAmountType): Amount {
     return Amount.from(
-      this._amount / Amount.from(amount, 18, false).toBigInt(),
-      this._decimalPlaces,
+      this.amount / Amount.from(amount, 18, false).toBigInt(),
+      this.#decimalPlaces,
       false
     )
   }
@@ -179,7 +179,7 @@ export default class Amount {
    * @returns The number of decimal places.
    */
   public get decimalPlaces(): number {
-    return this._decimalPlaces
+    return this.#decimalPlaces
   }
 
   // Converters
@@ -190,7 +190,7 @@ export default class Amount {
    * @returns The string representation of the amount.
    */
   public toString(): string {
-    return this._amount.toString()
+    return this.amount.toString()
   }
 
   /**
@@ -199,7 +199,7 @@ export default class Amount {
    * @returns The `BigInt` representation of the amount.
    */
   public toBigInt(): bigint {
-    return this._amount
+    return this.amount
   }
 
   /**
@@ -209,7 +209,7 @@ export default class Amount {
    */
   public toReadable(): number {
     return this.correctFloatingPointError(
-      parseInt(this._amount.toString()) * 10 ** -this._decimalPlaces
+      parseInt(this.amount.toString()) * 10 ** -this.#decimalPlaces
     )
   }
 
@@ -219,7 +219,7 @@ export default class Amount {
    * @returns The integer representation of the amount.
    */
   public toInteger(): number {
-    return parseInt(this._amount.toString())
+    return parseInt(this.amount.toString())
   }
 
   // Internal utils
