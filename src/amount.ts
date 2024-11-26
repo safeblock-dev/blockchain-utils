@@ -208,9 +208,10 @@ export default class Amount {
    * @returns The readable number representation of the amount.
    */
   public toReadable(): number {
-    return this.correctFloatingPointError(
-      parseInt(this.amount.toString()) * 10 ** -this.#decimalPlaces
-    )
+    return Number(this.correctFloatingPointError(
+      parseInt(this.amount.toString()) * 10 ** -this.#decimalPlaces,
+      this.#decimalPlaces
+    ).toFixed(this.#decimalPlaces))
   }
 
   /**
