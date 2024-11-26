@@ -48,7 +48,7 @@ export default class Amount {
    * @param {Amount} amounts list of amounts
    * @returns {Amount} resulting amount or undefined
    */
-  public static select(...amounts: Amount[]): Amount | undefined {
+  public static select(...amounts: (Amount | null | undefined)[]): Amount | undefined {
     for (const amount of amounts) {
       if (!amount || !Amount.isAmount(amount)) continue
 

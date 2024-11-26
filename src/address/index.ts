@@ -23,12 +23,12 @@ export default class Address extends AddressActions {
   constructor(address: AddressLike) {
     super()
 
+    if (!address) throw new Error("Invalid address")
+
     // Detect the address type and validate
     const addressType = AddressTypeChecks.detectBlockchainAddressType(address.toString())
 
-    if (addressType === AddressType.Unknown) {
-      throw new Error("Unknown address type")
-    }
+    if (addressType === AddressType.Unknown) throw new Error("Unknown address type")
 
     // Store the address as a string
     this.#address = address.toString()

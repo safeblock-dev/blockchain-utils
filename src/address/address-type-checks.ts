@@ -12,6 +12,8 @@ export default class AddressTypeChecks extends SpecialAddresses {
    * @returns `true` if the address is a TON address, otherwise `false`.
    */
   public static isTon(address: AddressLike): boolean {
+    if (!address) return false
+
     return this.detectBlockchainAddressType(address.toString()) === AddressType.TON
   }
 
@@ -21,6 +23,8 @@ export default class AddressTypeChecks extends SpecialAddresses {
    * @returns `true` if the address is an Ethereum address, otherwise `false`.
    */
   public static isEthereum(address: AddressLike): boolean {
+    if (!address) return false
+
     return this.detectBlockchainAddressType(address.toString()) === AddressType.Ethereum
   }
 
@@ -30,6 +34,8 @@ export default class AddressTypeChecks extends SpecialAddresses {
    * @returns `true` if the address is a TRON address, otherwise `false`.
    */
   public static isTron(address: AddressLike): boolean {
+    if (!address) return false
+
     return this.detectBlockchainAddressType(address.toString()) === AddressType.Tron
   }
 
@@ -39,6 +45,8 @@ export default class AddressTypeChecks extends SpecialAddresses {
    * @returns `true` if the address is valid, otherwise `false`.
    */
   public static isAddress(address: AddressLike): boolean {
+    if (!address) return false
+
     return this.detectBlockchainAddressType(address.toString()) !== AddressType.Unknown
   }
 
@@ -83,6 +91,8 @@ export default class AddressTypeChecks extends SpecialAddresses {
    * @returns `true` if the addresses are equal, otherwise `false`.
    */
   public static equal(addressA: AddressLike, addressB: AddressLike): boolean {
+    if (!addressA || !addressB) return false
+
     const typeA = this.detectBlockchainAddressType(addressA.toString())
     const typeB = this.detectBlockchainAddressType(addressB.toString())
 

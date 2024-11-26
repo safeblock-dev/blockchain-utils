@@ -27,7 +27,7 @@ export enum AddressType {
   Unknown
 }
 
-export type AddressLike = string | { toString: () => string }
+export type AddressLike = string | { toString: () => string } | null | undefined
 
 /**
  * A class containing common special addresses used across multiple blockchains.
@@ -75,7 +75,7 @@ export default class SpecialAddresses {
    * @param {Network} network desired network
    * @returns {string} wrapped address
    */
-  public static wrappedOf(network: Network) {
+  public static wrappedOf(network: Network): string {
     return selectAddress(network, {
       [matic.name]: "0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270",
       [mainnet.name]: "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2",

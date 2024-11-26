@@ -28,6 +28,8 @@ export default class AddressActions extends AddressTypeChecks {
    * @returns `true` if `addressA` is less than `addressB`, otherwise `false`.
    */
   public static lt(addressA: AddressLike, addressB: AddressLike): boolean {
+    if (!addressA || !addressB) return false
+
     const addressAType = this.detectBlockchainAddressType(addressA.toString())
     const addressBType = this.detectBlockchainAddressType(addressB.toString())
 
@@ -47,6 +49,8 @@ export default class AddressActions extends AddressTypeChecks {
    * @returns `true` if `addressA` is greater than `addressB`, otherwise `false`.
    */
   public static gt(addressA: AddressLike, addressB: AddressLike): boolean {
+    if (!addressB || !addressA) return false
+
     const addressAType = this.detectBlockchainAddressType(addressA.toString())
     const addressBType = this.detectBlockchainAddressType(addressB.toString())
 
