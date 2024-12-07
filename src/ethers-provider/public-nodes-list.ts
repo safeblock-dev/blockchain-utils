@@ -39,8 +39,7 @@ const publicNodesList: Map<string, string[]> = new Map([
     "https://1rpc.io/eth",
     "https://rpc.ankr.com/eth",
     "https://cloudflare-eth.com",
-    "https://eth.meowrpc.com",
-    "https://eth.nownodes.io"
+    "https://eth.meowrpc.com"
   ] ]
 ])
 
