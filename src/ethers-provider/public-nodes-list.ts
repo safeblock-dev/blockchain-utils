@@ -25,21 +25,18 @@ const publicNodesList: Map<string, string[]> = new Map([
     "https://arb1.arbitrum.io/rpc",
     "https://rpc.ankr.com/arbitrum",
     "https://1rpc.io/arb",
-    "https://arbitrum.meowrpc.com",
     "https://arbitrum.drpc.org"
   ] ],
   [ matic.name, [
     "https://polygon-rpc.com",
     "https://rpc.ankr.com/polygon",
     "https://1rpc.io/matic",
-    "https://polygon.meowrpc.com",
     "https://polygon.drpc.org"
   ] ],
   [ mainnet.name, [
     "https://1rpc.io/eth",
     "https://rpc.ankr.com/eth",
-    "https://cloudflare-eth.com",
-    "https://eth.meowrpc.com"
+    "https://cloudflare-eth.com"
   ] ]
 ])
 

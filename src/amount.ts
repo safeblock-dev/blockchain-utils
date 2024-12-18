@@ -1,3 +1,4 @@
+import BigNumber from "bignumber.js"
 import { ethers } from "ethers"
 
 type AnyAmountType = number | string | BigInt | ethers.BigNumberish | Amount
@@ -17,8 +18,8 @@ export default class Amount {
     const isReadable = this.isReadable(amount, readable)
 
     this.amount = isReadable
-      ? BigInt((Number(String(amount)) * 10 ** decimalPlaces).toFixed(0))
-      : BigInt(String(amount))
+      ? BigInt(new BigNumber(String(amount)).shiftedBy(decimalPlaces).toFixed(0))
+      : BigInt(new BigNumber(String(amount)).toFixed())
     this.#decimalPlaces = decimalPlaces
   }
 

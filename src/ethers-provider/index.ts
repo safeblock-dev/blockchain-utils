@@ -2,8 +2,14 @@ import { FallbackProvider, Network } from "ethers"
 import { evmNetworksList } from "../networks"
 import createFallbackProvider from "./create-fallback-provider"
 
+interface IProviderCreateDetails {
+  network: Network
+  attachedNodesList: string[]
+  prioritizeAttached: boolean
+}
+
 /** Map of all fallback providers created */
-const fallbackProviders: { current: Map<string, FallbackProvider> } = {
+const fallbackProviders: { current: Map<string, IProviderCreateDetails> } = {
   current: new Map()
 }
 
@@ -19,7 +25,12 @@ export function reconfigureProvidersList(attachNodes?: Record<string, string[]>,
 
     return [
       network.name,
-      createFallbackProvider(network, attachedNodesList, prioritizeAttached)
+      {
+        attachedNodesList: attachedNodesList ?? [],
+        network,
+        prioritizeAttached
+      }
+      //createFallbackProvider(network, attachedNodesList, prioritizeAttached)
     ]
   }))
 }
@@ -32,9 +43,9 @@ reconfigureProvidersList()
  * @param {Network} network EVM network
  */
 export default function ethersProvider(network: Network): FallbackProvider | null {
-  const provider = fallbackProviders.current.get(network.name)
+  const providerCreateDetails = fallbackProviders.current.get(network.name)
 
-  if (!provider) throw new Error("Unsupported network: " + network.name)
+  if (!providerCreateDetails) throw new Error("Unsupported network: " + network.name)
 
-  return provider
+  return createFallbackProvider(network, providerCreateDetails.attachedNodesList, providerCreateDetails.prioritizeAttached)
 }
