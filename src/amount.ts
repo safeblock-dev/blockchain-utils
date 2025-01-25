@@ -1,10 +1,10 @@
 import BigNumber from "bignumber.js"
 import { ethers } from "ethers"
 
-type AnyAmountType = number | string | BigInt | ethers.BigNumberish | Amount
+type AnyAmountType = number | string | BigInt | ethers.BigNumberish | Amount | BigNumber
 
 export default class Amount {
-  private readonly amount = BigInt(0)
+  private readonly amount = new BigNumber(0)
   readonly #decimalPlaces: number = 0
 
   /**
@@ -18,8 +18,8 @@ export default class Amount {
     const isReadable = this.isReadable(amount, readable)
 
     this.amount = isReadable
-      ? BigInt(new BigNumber(String(amount)).shiftedBy(decimalPlaces).toFixed(0))
-      : BigInt(new BigNumber(String(amount)).toFixed())
+      ? new BigNumber(String(amount)).shiftedBy(decimalPlaces)
+      : new BigNumber(String(amount))
     this.#decimalPlaces = decimalPlaces
   }
 
@@ -64,9 +64,11 @@ export default class Amount {
    * @returns {boolean} true when amount
    */
   public static isAmount(amount: AnyAmountType): boolean {
-    return String(amount).toLowerCase() !== "nan"
-      && Number(String(amount)) < Number.POSITIVE_INFINITY
-      && Number(String(amount)) > Number.NEGATIVE_INFINITY
+    const _a = BigNumber.isBigNumber(amount) ? amount : new BigNumber(String(amount))
+
+    return _a.toString().toLowerCase() !== "nan"
+      && _a.lt(Number.POSITIVE_INFINITY)
+      && _a.gt(Number.NEGATIVE_INFINITY)
   }
 
   // Math operations
@@ -77,7 +79,7 @@ export default class Amount {
    * @returns {boolean}
    */
   public lt(amount: AnyAmountType): boolean {
-    return this.amount < Amount.from(amount, 18, false).toBigInt()
+    return this.toReadableBigNumber().lt(Amount.parse(amount))
   }
 
   /**
@@ -86,7 +88,7 @@ export default class Amount {
    * @returns {boolean}
    */
   public gt(amount: AnyAmountType): boolean {
-    return this.amount > Amount.from(amount, 18, false).toBigInt()
+    return this.toReadableBigNumber().gt(Amount.parse(amount))
   }
 
   /**
@@ -95,7 +97,8 @@ export default class Amount {
    * @returns {boolean}
    */
   public eq(amount: AnyAmountType): boolean {
-    return this.amount === Amount.from(amount, 18, false).toBigInt()
+    //return this.amount === Amount.from(amount, 18, false).toBigInt()
+    return this.toReadableBigNumber().eq(Amount.parse(amount))
   }
 
   /**
@@ -123,11 +126,9 @@ export default class Amount {
    * @returns A new `Amount` instance representing the result.
    */
   public add(amount: AnyAmountType): Amount {
-    return Amount.from(
-      Amount.from(amount, 18, false).toBigInt() + this.amount,
-      this.#decimalPlaces,
-      false
-    )
+    const bn = Amount.parse(amount).plus(this.toReadableBigNumber())
+
+    return new Amount(bn, this.#decimalPlaces, true)
   }
 
   /**
@@ -137,11 +138,9 @@ export default class Amount {
    * @returns A new `Amount` instance representing the result.
    */
   public sub(amount: AnyAmountType): Amount {
-    return Amount.from(
-      this.amount - Amount.from(amount, 18, false).toBigInt(),
-      this.#decimalPlaces,
-      false
-    )
+    const bn = this.toReadableBigNumber().minus(Amount.parse(amount))
+
+    return new Amount(bn, this.#decimalPlaces, true)
   }
 
   /**
@@ -151,11 +150,9 @@ export default class Amount {
    * @returns A new `Amount` instance representing the result.
    */
   public mul(amount: AnyAmountType): Amount {
-    return Amount.from(
-      Amount.from(amount, 18, false).toBigInt() * this.amount,
-      this.#decimalPlaces,
-      false
-    )
+    const bn = this.toReadableBigNumber().multipliedBy(Amount.parse(amount))
+
+    return new Amount(bn, this.#decimalPlaces, true)
   }
 
   /**
@@ -165,11 +162,9 @@ export default class Amount {
    * @returns A new `Amount` instance representing the result.
    */
   public div(amount: AnyAmountType): Amount {
-    return Amount.from(
-      this.amount / Amount.from(amount, 18, false).toBigInt(),
-      this.#decimalPlaces,
-      false
-    )
+    const bn = this.toReadableBigNumber().div(Amount.parse(amount))
+
+    return new Amount(bn, this.#decimalPlaces, true)
   }
 
   // Getters
@@ -200,6 +195,24 @@ export default class Amount {
    * @returns The `BigInt` representation of the amount.
    */
   public toBigInt(): bigint {
+    return BigInt(this.amount.toFixed(0))
+  }
+
+  /**
+   * Converts the `Amount` to a readable BigNumber format (e.g., with decimal places).
+   *
+   * @returns {BigNumber}
+   */
+  public toReadableBigNumber(): BigNumber {
+    return this.amount.shiftedBy(-this.#decimalPlaces)
+  }
+
+  /**
+   * Converts the `Amount` to a BigNumber format (e.g., without decimal places).
+   *
+   * @returns {BigNumber}
+   */
+  public toBigNumber(): BigNumber {
     return this.amount
   }
 
@@ -222,6 +235,18 @@ export default class Amount {
    */
   public toInteger(): number {
     return parseInt(this.amount.toString())
+  }
+
+  /**
+   * Converts the `Amount` to an BigNumber format
+   *
+   * @param {AnyAmountType} value
+   * @returns {BigNumber}
+   */
+  private static parse(value: AnyAmountType): BigNumber {
+    if (value instanceof Amount) return value.toReadableBigNumber()
+
+    return BigNumber.isBigNumber(value) ? value : new BigNumber(String(value))
   }
 
   // Internal utils
