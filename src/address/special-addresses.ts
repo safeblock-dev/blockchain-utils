@@ -1,5 +1,5 @@
 import { Network } from "ethers"
-import { arbitrum, avalanche, bnb, mainnet, matic, optimism, tron } from "../networks"
+import { arbitrum, avalanche, base, bnb, mainnet, matic, optimism, tron } from "../networks"
 import selectAddress from "../utils/select-address"
 
 /**
@@ -84,6 +84,7 @@ export default class SpecialAddresses {
       [optimism.name]: "0x4200000000000000000000000000000000000006",
       [bnb.name]: "0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c",
       [tron.name]: "TNUC9Qb1rRpS5CbWLmNMxXBjyFoydXjWFR",
+      [base.name]: "0x4200000000000000000000000000000000000006",
       default: this.zeroAddress
     })
   }

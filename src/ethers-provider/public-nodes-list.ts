@@ -1,4 +1,4 @@
-import { arbitrum, avalanche, bnb, mainnet, matic, optimism } from "../networks"
+import { arbitrum, avalanche, base, bnb, mainnet, matic, optimism } from "../networks"
 
 /** List of the public EVM provider URLs for supported chains */
 const publicNodesList: Map<string, string[]> = new Map([
@@ -37,6 +37,11 @@ const publicNodesList: Map<string, string[]> = new Map([
     "https://1rpc.io/eth",
     "https://rpc.ankr.com/eth",
     "https://cloudflare-eth.com"
+  ] ],
+  [ base.name, [
+    "https://mainnet.base.org",
+    "https://1rpc.io/base",
+    "https://base-rpc.publicnode.com"
   ] ]
 ])
 

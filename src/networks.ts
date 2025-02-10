@@ -13,11 +13,13 @@ export const mainnet = Network.from(1)
 
 export const avalanche = new Network("avalanche", 43114)
 
+export const base = new Network("base", 8453)
+
 // Pseudo networks (non-EVM)
 
-export const ton = new Network("ton", 9990001)
+export const ton = new Network("ton", 1100)
 
-export const tron = new Network("tron", 9990002)
+export const tron = new Network("tron", 1000)
 
 export const evmNetworksList: Set<Network> = new Set([
   bnb,
@@ -25,7 +27,8 @@ export const evmNetworksList: Set<Network> = new Set([
   matic,
   arbitrum,
   mainnet,
-  avalanche
+  avalanche,
+  base
 ])
 
 export const networksList: Set<Network> = new Set([
