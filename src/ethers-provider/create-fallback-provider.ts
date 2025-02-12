@@ -20,9 +20,13 @@ export default function createFallbackProvider(network: Network, attachNodes?: s
     .filter(providerUrl => providerUrl.length > 0)
 
   // Create the fallback provider
-  return new FallbackProvider(networkProviders.map((providerUrl, index) => ({
-    provider: new JsonRpcProvider(providerUrl, network.chainId, { staticNetwork: network }),
-    priority: index + 1,
-    weight: attachNodes ? (attachNodes.includes(providerUrl) && prioritizeAttached ? 2 : 1) : 1
-  })))
+  return new FallbackProvider(networkProviders.map((providerUrl, index) => {
+    const isPrioritized = attachNodes !== undefined && attachNodes.includes(providerUrl) && prioritizeAttached
+
+    return {
+      provider: new JsonRpcProvider(providerUrl, network.chainId, { staticNetwork: network }),
+      priority: (index + 11) - (isPrioritized ? 10 : 0),
+      //weight: attachNodes ? (attachNodes.includes(providerUrl) && prioritizeAttached ? 1 : 1) : 1
+    }
+  }))
 }
