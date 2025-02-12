@@ -221,11 +221,8 @@ export default class Amount {
    *
    * @returns The readable number representation of the amount.
    */
-  public toReadable(): number {
-    return Number(this.correctFloatingPointError(
-      parseInt(this.amount.toString()) * 10 ** -this.#decimalPlaces,
-      this.#decimalPlaces
-    ).toFixed(this.#decimalPlaces))
+  public toReadable(): string {
+    return this.toReadableBigNumber().toFixed()
   }
 
   /**
@@ -250,18 +247,6 @@ export default class Amount {
   }
 
   // Internal utils
-
-  /**
-   * Corrects floating-point errors by rounding to the desired precision.
-   *
-   * @param value - The floating-point number to correct.
-   * @param precision - The number of decimal places to round to (default is 18).
-   * @returns The corrected floating-point number.
-   */
-  private correctFloatingPointError(value: number, precision: number = 18): number {
-    const factor = Math.pow(10, precision)
-    return Math.round(value * factor) / factor
-  }
 
   /**
    * Determines whether the given amount is in a readable format.
