@@ -186,7 +186,7 @@ export default class Amount {
    * @returns The string representation of the amount.
    */
   public toString(): string {
-    return this.amount.toString()
+    return this.amount.toFixed()
   }
 
   /**
