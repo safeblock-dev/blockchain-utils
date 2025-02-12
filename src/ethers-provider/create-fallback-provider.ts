@@ -1,7 +1,7 @@
 import { FallbackProvider, JsonRpcProvider, Network } from "ethers"
 import publicNodesList from "./public-nodes-list"
 
-interface Options {
+export interface FallbackProviderCustomOptions {
   /** List of custom nodes to use */
   attachNodes?: string[]
 
@@ -26,7 +26,7 @@ interface Options {
  * @param network provider network
  * @param options provider options
  */
-export default function createFallbackProvider(network: Network, options: Options) {
+export default function createFallbackProvider(network: Network, options: FallbackProviderCustomOptions) {
   // Get a list of public provider URLs
   const publicNetworkProviders = publicNodesList.get(network.name)
 

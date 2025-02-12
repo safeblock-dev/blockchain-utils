@@ -1,6 +1,6 @@
 import { FallbackProvider, Network } from "ethers"
 import { evmNetworksList } from "../networks"
-import createFallbackProvider from "./create-fallback-provider"
+import createFallbackProvider, { FallbackProviderCustomOptions } from "./create-fallback-provider"
 
 interface IProviderCreateDetails {
   network: Network
@@ -9,8 +9,9 @@ interface IProviderCreateDetails {
 }
 
 /** Map of all fallback providers created */
-const fallbackProviders: { current: Map<string, IProviderCreateDetails> } = {
-  current: new Map()
+const fallbackProviders: { current: Map<string, IProviderCreateDetails>, customOptions?: FallbackProviderCustomOptions } = {
+  current: new Map(),
+  customOptions: undefined
 }
 
 /**
@@ -18,8 +19,14 @@ const fallbackProviders: { current: Map<string, IProviderCreateDetails> } = {
  *
  * @param {Record<string, string[]>} attachNodes list of additional nodes
  * @param {boolean} prioritizeAttached prioritize attached nodes over default public nodes
+ * @param customOptions custom provider options
  */
-export function reconfigureProvidersList(attachNodes?: Record<string, string[]>, prioritizeAttached: boolean = false) {
+export function reconfigureProvidersList(
+  attachNodes?: Record<string, string[]>,
+  prioritizeAttached: boolean = false,
+  customOptions?: Omit<FallbackProviderCustomOptions, "attachNodes" | "prioritizeAttached">
+) {
+  fallbackProviders.customOptions = customOptions
   fallbackProviders.current = new Map(Array.from(evmNetworksList).map(network => {
     const attachedNodesList = attachNodes?.[network.name]
 
@@ -30,7 +37,6 @@ export function reconfigureProvidersList(attachNodes?: Record<string, string[]>,
         network,
         prioritizeAttached
       }
-      //createFallbackProvider(network, attachedNodesList, prioritizeAttached)
     ]
   }))
 }
@@ -47,5 +53,9 @@ export default function ethersProvider(network: Network): FallbackProvider | nul
 
   if (!providerCreateDetails) throw new Error("Unsupported network: " + network.name)
 
-  return createFallbackProvider(network, providerCreateDetails.attachedNodesList, providerCreateDetails.prioritizeAttached)
+  return createFallbackProvider(network, {
+    attachNodes: providerCreateDetails.attachedNodesList,
+    prioritizeAttached: providerCreateDetails.prioritizeAttached,
+    ...(fallbackProviders.customOptions ?? {})
+  })
 }
