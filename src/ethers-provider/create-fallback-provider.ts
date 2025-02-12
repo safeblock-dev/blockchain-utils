@@ -9,8 +9,9 @@ import publicNodesList from "./public-nodes-list"
  * @param network network
  * @param attachNodes optional list of additional nodes
  * @param prioritizeAttached prioritize attached nodes over default public nodes, false by default
+ * @param stallTimeout
  */
-export default function createFallbackProvider(network: Network, attachNodes?: string[], prioritizeAttached = false) {
+export default function createFallbackProvider(network: Network, attachNodes?: string[], prioritizeAttached = false, stallTimeout = 10_000) {
   // Get a list of public provider URLs
   const publicNetworkProviders = publicNodesList.get(network.name)
 
@@ -26,6 +27,7 @@ export default function createFallbackProvider(network: Network, attachNodes?: s
     return {
       provider: new JsonRpcProvider(providerUrl, network.chainId, { staticNetwork: network }),
       priority: (index + 11) - (isPrioritized ? 10 : 0),
+      stallTimeout
       //weight: attachNodes ? (attachNodes.includes(providerUrl) && prioritizeAttached ? 1 : 1) : 1
     }
   }))
