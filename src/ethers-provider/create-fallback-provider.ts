@@ -41,13 +41,14 @@ export default function createFallbackProvider(network: Network, options: Fallba
       && options.attachNodes.includes(providerUrl)
       && options.prioritizeAttached === true
 
-    const prioritizedWeight = options.attachNodes ? (options.attachNodes.includes(providerUrl) && options.prioritizeAttached ? 1 : 1) : 1
-
+    const minWeight = Math.min(options.quorum ?? 1, 1)
     return {
       provider: new JsonRpcProvider(providerUrl, network.chainId, { staticNetwork: network }),
       priority: (index + 11) - (isPrioritized ? 10 : 0),
       stallTimeout: options.stallTimeout,
-      weight: options.priorityBasedWeight ? prioritizedWeight : undefined
+      weight: options.attachNodes
+        ? (options.attachNodes.includes(providerUrl) && options.prioritizeAttached ? Math.min(options.quorum ?? 2, 2) : minWeight)
+        : minWeight
     }
   }), network, { quorum: options.quorum ?? 1 })
 }
