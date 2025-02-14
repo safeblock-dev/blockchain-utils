@@ -65,7 +65,7 @@ export default class Address extends AddressActions {
    * @returns The string representation of the address.
    */
   public toString(): string {
-    return this.address
+    return this.address.toLowerCase()
   }
 
   // Type checks

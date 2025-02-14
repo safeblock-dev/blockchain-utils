@@ -1,4 +1,3 @@
-import { getAddress } from "ethers"
 import SpecialAddresses, { AddressLike, AddressType } from "./special-addresses"
 
 /**
@@ -100,7 +99,7 @@ export default class AddressTypeChecks extends SpecialAddresses {
 
     if (typeA === AddressType.Ethereum) {
       // Normalize and compare Ethereum addresses
-      return getAddress(addressA.toString()) === getAddress(addressB.toString())
+      return addressA.toString().toLowerCase() === addressB.toString().toLowerCase()
     }
 
     // For TON and TRON, perform a direct string comparison (trimmed)
