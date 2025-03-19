@@ -11,32 +11,28 @@ const publicNodesList: Map<string, string[]> = new Map([
   ] ],
   [ optimism.name, [
     "https://mainnet.optimism.io",
-    "https://rpc.ankr.com/optimism",
-    "https://1rpc.io/op"
+    "https://1rpc.io/op",
+    "https://optimism-rpc.publicnode.com"
   ] ],
   [ avalanche.name, [
     "https://api.avax.network/ext/bc/C/rpc",
     "https://1rpc.io/avax/c",
-    "https://rpc.ankr.com/avalanche",
-    "https://avalanche.public-rpc.com",
     "https://avalanche-c-chain-rpc.publicnode.com"
   ] ],
   [ arbitrum.name, [
     "https://arb1.arbitrum.io/rpc",
-    "https://rpc.ankr.com/arbitrum",
     "https://1rpc.io/arb",
     "https://arbitrum.drpc.org"
   ] ],
   [ matic.name, [
     "https://polygon-rpc.com",
-    "https://rpc.ankr.com/polygon",
     "https://1rpc.io/matic",
     "https://polygon.drpc.org"
   ] ],
   [ mainnet.name, [
     "https://1rpc.io/eth",
-    "https://rpc.ankr.com/eth",
-    "https://cloudflare-eth.com"
+    "https://cloudflare-eth.com",
+    "https://ethereum-rpc.publicnode.com"
   ] ],
   [ base.name, [
     "https://mainnet.base.org",

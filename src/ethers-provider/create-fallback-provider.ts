@@ -16,6 +16,8 @@ export interface FallbackProviderCustomOptions {
 
   /** Set node weight based on priority (1 for default nodes and 2 for prioritized) */
   priorityBasedWeight?: boolean
+
+  attachedNodesOnly?: boolean
 }
 
 /**
@@ -32,8 +34,13 @@ export default function createFallbackProvider(network: Network, options: Fallba
 
   if (!publicNetworkProviders) throw new Error("Unsupported network: " + network.name)
 
-  const networkProviders = [...publicNetworkProviders, ...(options.attachNodes ?? [])]
+  let networkProviders = [...publicNetworkProviders, ...(options.attachNodes ?? [])]
     .filter(providerUrl => providerUrl.length > 0)
+
+  if (options.attachNodes && options.attachNodes.length > 0 && options.attachedNodesOnly)
+    networkProviders = options.attachNodes
+
+  if (options.attachedNodesOnly && !options.attachNodes?.length) throw new Error("Invalid configuration for attached nodes")
 
   // Create the fallback provider
   return new FallbackProvider(networkProviders.map((providerUrl, index) => {
