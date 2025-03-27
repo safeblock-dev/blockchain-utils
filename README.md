@@ -1,6 +1,8 @@
 
 # @safeblock/blockchain-utils
 
+_The documentation is outdated and will be updated as soon as possible_
+
 ---
 
 ## Table of Contents
