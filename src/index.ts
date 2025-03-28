@@ -1,6 +1,7 @@
 import Address from "./address"
 import Amount from "./amount"
 import ethersProvider, { reconfigureProvidersList } from "./ethers-provider"
+import { MultiCallRequest, MultiCallResponse, Call3_MultiCallStruct } from "./types"
 import arrayUtils from "./utils/array-utils"
 import cast from "./utils/cast"
 import { arbitrum, avalanche, bnb, mainnet, matic, ton, tron, evmNetworksList, optimism, networksList, base } from "./networks"
@@ -28,5 +29,9 @@ export {
   selectAddress,
 
   Address,
-  Amount
+  Amount,
+
+  type MultiCallRequest,
+  type MultiCallResponse,
+  type Call3_MultiCallStruct
 }
