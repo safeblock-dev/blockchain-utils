@@ -37,10 +37,11 @@ export default function createFallbackProvider(network: Network, options: Fallba
   let networkProviders = [...publicNetworkProviders, ...(options.attachNodes ?? [])]
     .filter(providerUrl => providerUrl.length > 0)
 
-  if (options.attachNodes && options.attachNodes.length > 0 && options.attachedNodesOnly)
-    networkProviders = options.attachNodes
-
-  if (options.attachedNodesOnly && !options.attachNodes?.length) throw new Error("Invalid configuration for attached nodes")
+  if (options.attachedNodesOnly && !options.attachNodes?.length) {
+    console.log("Invalid configuration for attached nodes, using public nodes")
+  } else {
+    if (options.attachNodes && options.attachNodes.length > 0 && options.attachedNodesOnly) networkProviders = options.attachNodes
+  }
 
   // Create the fallback provider
   return new FallbackProvider(networkProviders.map((providerUrl, index) => {
