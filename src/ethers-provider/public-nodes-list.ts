@@ -4,10 +4,9 @@ import { arbitrum, avalanche, base, bnb, mainnet, matic, optimism } from "../net
 const publicNodesList: Map<string, string[]> = new Map([
   [ bnb.name, [
     "https://bsc-dataseed.bnbchain.org",
-    "https://bsc-dataseed1.bnbchain.org",
-    "https://bsc-dataseed2.bnbchain.org",
-    "https://bsc-dataseed3.bnbchain.org",
-    "https://bsc-dataseed4.bnbchain.org"
+    "https://bsc-dataseed1.defibit.io",
+    "https://bsc-dataseed2.ninicoin.io",
+    "https://1rpc.io/bnb"
   ] ],
   [ optimism.name, [
     "https://mainnet.optimism.io",
