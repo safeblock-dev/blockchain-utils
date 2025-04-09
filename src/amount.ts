@@ -17,9 +17,11 @@ export default class Amount {
   constructor(amount: AnyAmountType, decimalPlaces: number, readable?: boolean) {
     const isReadable = this.isReadable(amount, readable)
 
+    const _readable = amount instanceof Amount ? amount.toReadable() : amount
+
     this.amount = isReadable
-      ? new BigNumber(String(amount)).shiftedBy(decimalPlaces).dp(0)
-      : new BigNumber(String(amount)).dp(0)
+      ? new BigNumber(String(_readable)).shiftedBy(decimalPlaces).dp(0)
+      : new BigNumber(String(_readable)).dp(0)
     this.#decimalPlaces = decimalPlaces
   }
 
