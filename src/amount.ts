@@ -18,8 +18,8 @@ export default class Amount {
     const isReadable = this.isReadable(amount, readable)
 
     this.amount = isReadable
-      ? new BigNumber(String(amount)).shiftedBy(decimalPlaces)
-      : new BigNumber(String(amount))
+      ? new BigNumber(String(amount)).shiftedBy(decimalPlaces).dp(0)
+      : new BigNumber(String(amount)).dp(0)
     this.#decimalPlaces = decimalPlaces
   }
 
