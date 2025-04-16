@@ -1,5 +1,5 @@
 import { Network } from "ethers"
-import { arbitrum, avalanche, base, bnb, mainnet, matic, optimism, tron } from "../networks"
+import { arbitrum, avalanche, base, bnb, gnosis, mainnet, matic, optimism, scroll, tron } from "../networks"
 import selectAddress from "../utils/select-address"
 
 /**
@@ -85,6 +85,8 @@ export default class SpecialAddresses {
       [bnb.name]: "0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c",
       [tron.name]: "TNUC9Qb1rRpS5CbWLmNMxXBjyFoydXjWFR",
       [base.name]: "0x4200000000000000000000000000000000000006",
+      [scroll.name]: "0x5300000000000000000000000000000000000004",
+      [gnosis.name]: "0xe91D153E0b41518A2Ce8Dd3D7944Fa863463a97d",
       default: this.zeroAddress
     })
   }
