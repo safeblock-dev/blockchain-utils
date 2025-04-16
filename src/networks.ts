@@ -15,11 +15,13 @@ export const avalanche = new Network("avalanche", 43114)
 
 export const base = new Network("base", 8453)
 
+export const scroll = new Network("scroll", 534352)
+
+export const gnosis = new Network("gnosis", 100)
+
 // Pseudo networks (non-EVM)
 
-export const ton = new Network("ton", 1100)
-
-export const tron = new Network("tron", 1000)
+export const tron = new Network("tron", 9900001)
 
 export const evmNetworksList: Set<Network> = new Set([
   bnb,
@@ -28,11 +30,12 @@ export const evmNetworksList: Set<Network> = new Set([
   arbitrum,
   mainnet,
   avalanche,
+  scroll,
+  gnosis,
   base
 ])
 
 export const networksList: Set<Network> = new Set([
   ...evmNetworksList,
-  ton,
   tron
 ])

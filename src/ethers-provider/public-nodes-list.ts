@@ -1,4 +1,4 @@
-import { arbitrum, avalanche, base, bnb, mainnet, matic, optimism } from "../networks"
+import { arbitrum, avalanche, base, bnb, gnosis, mainnet, matic, optimism, scroll } from "../networks"
 
 /** List of the public EVM provider URLs for supported chains */
 const publicNodesList: Map<string, string[]> = new Map([
@@ -37,6 +37,16 @@ const publicNodesList: Map<string, string[]> = new Map([
     "https://mainnet.base.org",
     "https://1rpc.io/base",
     "https://base-rpc.publicnode.com"
+  ] ],
+  [ gnosis.name, [
+    "https://1rpc.io/gnosis",
+    "https://gnosis-rpc.publicnode.com",
+    "https://rpc.gnosischain.com"
+  ] ],
+  [ scroll.name, [
+    "https://rpc.scroll.io",
+    "https://1rpc.io/scroll",
+    "https://scroll-rpc.publicnode.com"
   ] ]
 ])
 
