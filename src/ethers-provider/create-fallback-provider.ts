@@ -18,6 +18,8 @@ export interface FallbackProviderCustomOptions {
   priorityBasedWeight?: boolean
 
   attachedNodesOnly?: boolean
+
+  debugLogger?: (...message: any[]) => void
 }
 
 /**
@@ -38,7 +40,7 @@ export default function createFallbackProvider(network: Network, options: Fallba
     .filter(providerUrl => providerUrl.length > 0)
 
   if (options.attachedNodesOnly && !options.attachNodes?.length) {
-    console.log("Invalid configuration for attached nodes, using public nodes")
+    options.debugLogger?.(`Invalid configuration for attached nodes on ${ network.name }, using public nodes`)
   } else {
     if (options.attachNodes && options.attachNodes.length > 0 && options.attachedNodesOnly) networkProviders = options.attachNodes
   }
