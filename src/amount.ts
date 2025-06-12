@@ -40,7 +40,7 @@ export default class Amount {
   public static from(amount: AnyAmountType | Amount, decimalPlaces?: number, readable?: boolean): Amount {
     if (amount instanceof Amount) return new Amount(amount.toReadable(), decimalPlaces ?? amount.decimalPlaces, true)
 
-    if (!decimalPlaces) throw new Error("Decimal places not provided")
+    if (typeof decimalPlaces !== "number" || decimalPlaces < 0) throw new Error("Decimal places not provided")
 
     return new Amount(amount, decimalPlaces, readable)
   }
