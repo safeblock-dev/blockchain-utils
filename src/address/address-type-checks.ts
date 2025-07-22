@@ -57,7 +57,7 @@ export default class AddressTypeChecks extends SpecialAddresses {
    * @return {boolean} true if the given address is the native EVM address or the zero addresses, otherwise false.
    */
   public static isNative(address: AddressLike): boolean {
-    return SpecialAddresses.evmNativeAddress.equalTo(address) || SpecialAddresses.zeroAddress.equalTo(address)
+    return this.equal(SpecialAddresses._evmNativeAddress, address) || this.equal(SpecialAddresses._zeroAddress, address)
   }
 
   /**
@@ -68,7 +68,7 @@ export default class AddressTypeChecks extends SpecialAddresses {
    * @return {boolean} true if the address is wrapped for the given network, otherwise false.
    */
   public static isWrapped(address: AddressLike, network: Network): boolean {
-    return SpecialAddresses.wrappedOf(network).equalTo(address)
+    return this.equal(SpecialAddresses._wrappedOf(network), address)
   }
 
   /**
@@ -77,8 +77,7 @@ export default class AddressTypeChecks extends SpecialAddresses {
    * @returns `true` if the address is a zero address, otherwise `false`.
    */
   public static isZero(address: AddressLike): boolean {
-    return this.equal(address, SpecialAddresses.zeroAddress) ||
-      this.equal(address, SpecialAddresses.tronZeroAddress)
+    return this.equal(address, SpecialAddresses._zeroAddress)
   }
 
   /**
@@ -88,18 +87,9 @@ export default class AddressTypeChecks extends SpecialAddresses {
    */
   public static isSpecial(address: AddressLike): boolean {
     if (this.isEthereum(address)) {
-      return this.equal(address, SpecialAddresses.zeroAddress) ||
-        this.equal(address, SpecialAddresses.evmNativeAddress) ||
-        this.equal(address, SpecialAddresses.evmBurnAddress)
-    }
-
-    if (this.isTon(address)) {
-      return this.equal(address, SpecialAddresses.tonBounceableNativeAddress)
-    }
-
-    if (this.isTron(address)) {
-      return this.equal(address, SpecialAddresses.tronZeroAddress) ||
-        this.equal(address, SpecialAddresses.tronContractCreationAddress)
+      return this.equal(address, SpecialAddresses._zeroAddress) ||
+        this.equal(address, SpecialAddresses._evmNativeAddress) ||
+        this.equal(address, SpecialAddresses._evmBurnAddress)
     }
 
     return false

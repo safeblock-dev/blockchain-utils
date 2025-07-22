@@ -1,7 +1,7 @@
 import { Network } from "ethers"
 import AddressActions from "./address-actions"
 import AddressTypeChecks from "./address-type-checks"
-import { AddressLike, AddressType } from "./special-addresses"
+import SpecialAddresses, { AddressLike, AddressType } from "./special-addresses"
 
 /**
  * Represents a blockchain address and provides utility methods for type checks, comparisons, and conversions.
@@ -13,6 +13,24 @@ export default class Address extends AddressActions {
    * @private
    */
   private readonly address: string
+
+  /**
+   * The zero address in EVM networks.
+   * Commonly used to represent "null" or "empty" addresses.
+   */
+  public static zeroAddress = this.from(SpecialAddresses._zeroAddress)
+
+  /**
+   * The burn address in EVM networks.
+   * Tokens sent to this address are effectively destroyed and removed from circulation.
+   */
+  public static evmBurnAddress = this.from(SpecialAddresses._evmBurnAddress)
+
+  /**
+   * The native token address in EVM networks.
+   * Used in some protocols to represent the native currency (e.g., ETH, BNB, etc.).
+   */
+  public static evmNativeAddress = this.from(SpecialAddresses._evmNativeAddress)
 
   /**
    * Creates a new `Address` instance after validating the address type.
@@ -124,5 +142,15 @@ export default class Address extends AddressActions {
    */
   public isWrapped(network: Network): boolean {
     return AddressTypeChecks.isWrapped(this.address, network)
+  }
+
+  /**
+   * Get wrapped native address of specific network
+   *
+   * @param {Network} network desired network
+   * @returns {Address} wrapped address
+   */
+  public static wrappedOf(network: Network): Address {
+    return this.from(this._wrappedOf(network))
   }
 }
