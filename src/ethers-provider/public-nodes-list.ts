@@ -1,4 +1,4 @@
-import { arbitrum, avalanche, base, bnb, gnosis, mainnet, matic, optimism, scroll } from "../networks"
+import { arbitrum, avalanche, base, bnb, gnosis, mainnet, matic, optimism, scroll, units } from "../networks"
 
 /** List of the public EVM provider URLs for supported chains */
 const publicNodesList: Map<string, string[]> = new Map([
@@ -7,6 +7,9 @@ const publicNodesList: Map<string, string[]> = new Map([
     "https://bsc-dataseed1.defibit.io",
     "https://bsc-dataseed2.ninicoin.io",
     "https://1rpc.io/bnb"
+  ] ],
+  [ units.name, [
+    "https://rpc.unit0.dev"
   ] ],
   [ optimism.name, [
     "https://mainnet.optimism.io",
