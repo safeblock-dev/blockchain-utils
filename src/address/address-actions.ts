@@ -18,6 +18,8 @@ export default class AddressActions extends AddressTypeChecks {
   public static requireWrapped(address: AddressLike, network: Network): Address {
     const _address = Address.from(address)
 
+    if (_address.equalTo(Address.zeroAddress)) return Address.wrappedOf(network)
+
     return Address.isNative(address) ? Address.wrappedOf(network) : _address
   }
 
