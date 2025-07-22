@@ -1,3 +1,4 @@
+import { Network } from "ethers"
 import AddressActions from "./address-actions"
 import AddressTypeChecks from "./address-type-checks"
 import { AddressLike, AddressType } from "./special-addresses"
@@ -95,5 +96,33 @@ export default class Address extends AddressActions {
    */
   public isEthereum(): boolean {
     return AddressTypeChecks.isEthereum(this.address)
+  }
+
+  /**
+   * Checks if the current address is a zero address.
+   *
+   * @return {boolean} true if the address is a zero address, otherwise false.
+   */
+  public isZero(): boolean {
+    return AddressTypeChecks.isZero(this.address)
+  }
+
+  /**
+   * Determines if the current address is considered native by checking its type.
+   *
+   * @return {boolean} true if the address is native, otherwise false.
+   */
+  public isNative(): boolean {
+    return AddressTypeChecks.isNative(this.address)
+  }
+
+  /**
+   * Determines if the current address is wrapped for the given network.
+   *
+   * @param {Network} network network context to check against.
+   * @return {boolean} true if the address is wrapped in the specified network, otherwise false.
+   */
+  public isWrapped(network: Network): boolean {
+    return AddressTypeChecks.isWrapped(this.address, network)
   }
 }

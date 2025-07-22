@@ -15,7 +15,7 @@ export default class AddressActions extends AddressTypeChecks {
    * @param {Network} network network context used to determine the wrapped counterpart of a native address.
    * @return {Address} wrapped form of the provided address or the resolved equivalent.
    */
-  public requireWrapped(address: AddressLike, network: Network): Address {
+  public static requireWrapped(address: AddressLike, network: Network): Address {
     const _address = Address.from(address)
 
     return Address.isNative(address) ? Address.wrappedOf(network) : _address
@@ -30,7 +30,7 @@ export default class AddressActions extends AddressTypeChecks {
    * @param {(address: Address) => Address} replacer function to apply to the address if it matches the replaceIf.
    * @return {Address} original address or the result of applying the replacer function to the address.
    */
-  public replaceAddress(address: DefinedAddressLike, replaceIf: DefinedAddressLike, replacer: (address: Address) => Address): Address {
+  public static replaceAddress(address: DefinedAddressLike, replaceIf: DefinedAddressLike, replacer: (address: Address) => Address): Address {
     const _address = Address.from(address)
 
     if (_address.equalTo(replaceIf)) return replacer(_address)

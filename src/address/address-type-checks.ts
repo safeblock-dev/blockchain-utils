@@ -1,3 +1,4 @@
+import { Network } from "ethers"
 import SpecialAddresses, { AddressLike, AddressType } from "./special-addresses"
 
 /**
@@ -57,6 +58,17 @@ export default class AddressTypeChecks extends SpecialAddresses {
    */
   public static isNative(address: AddressLike): boolean {
     return SpecialAddresses.evmNativeAddress.equalTo(address) || SpecialAddresses.zeroAddress.equalTo(address)
+  }
+
+  /**
+   * Determines whether the given address is wrapped for the specified network.
+   *
+   * @param {AddressLike} address address to check.
+   * @param {Network} network network on which the check is performed.
+   * @return {boolean} true if the address is wrapped for the given network, otherwise false.
+   */
+  public static isWrapped(address: AddressLike, network: Network): boolean {
+    return SpecialAddresses.wrappedOf(network).equalTo(address)
   }
 
   /**
