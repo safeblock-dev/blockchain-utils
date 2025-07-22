@@ -19,6 +19,8 @@ export const scroll = new Network("scroll", 534352)
 
 export const gnosis = new Network("gnosis", 100)
 
+export const units = new Network("units", 88811)
+
 // Pseudo networks (non-EVM)
 
 export const tron = new Network("tron", 9900001)
@@ -32,7 +34,8 @@ export const evmNetworksList: Set<Network> = new Set([
   avalanche,
   scroll,
   gnosis,
-  base
+  base,
+  units
 ])
 
 export const networksList: Set<Network> = new Set([
