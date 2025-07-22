@@ -50,6 +50,16 @@ export default class AddressTypeChecks extends SpecialAddresses {
   }
 
   /**
+   * Checks if the given address is either the native EVM address or the zero addresses.
+   *
+   * @param {AddressLike} address address to check, represented either as an Address object or a string.
+   * @return {boolean} true if the given address is the native EVM address or the zero addresses, otherwise false.
+   */
+  public static isNative(address: AddressLike): boolean {
+    return SpecialAddresses.evmNativeAddress.equalTo(address) || SpecialAddresses.zeroAddress.equalTo(address)
+  }
+
+  /**
    * Checks if the given address is a "zero address" in any blockchain.
    * @param address - The address to check.
    * @returns `true` if the address is a zero address, otherwise `false`.
@@ -107,7 +117,7 @@ export default class AddressTypeChecks extends SpecialAddresses {
   }
 
   /**
-   * Detects the blockchain type of given address.
+   * Detects the blockchain type of a given address.
    * @param address - The address to analyze.
    * @returns The detected blockchain type as an `AddressType` enum value.
    */

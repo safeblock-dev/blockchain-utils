@@ -1,12 +1,43 @@
-import Address from "../address"
+import { Network } from "ethers"
+import { Address, arrayUtils } from "../index"
 import AddressTypeChecks from "./address-type-checks"
-import { AddressLike, AddressType } from "./special-addresses"
+import { AddressLike, AddressType, DefinedAddressLike } from "./special-addresses"
 
 /**
  * A utility class for performing actions and comparisons on blockchain addresses.
  * Extends `AddressTypeChecks` to inherit address type detection and comparison utilities.
  */
 export default class AddressActions extends AddressTypeChecks {
+  /**
+   * Ensures that the provided address is wrapped, returning the corresponding wrapped address if necessary.
+   *
+   * @param {AddressLike} address address to verify and return in wrapped format if applicable.
+   * @param {Network} network network context used to determine the wrapped counterpart of a native address.
+   * @return {Address} wrapped form of the provided address or the resolved equivalent.
+   */
+  public requireWrapped(address: AddressLike, network: Network): Address {
+    const _address = Address.from(address)
+
+    return Address.isNative(address) ? Address.wrappedOf(network) : _address
+  }
+
+  /**
+   * Checks if a given address is the same as a specified safeFromAddress, and if so,
+   * returns the result of a replacer function applied to the address. If not, it returns the original address.
+   *
+   * @param {DefinedAddressLike} address input address to be checked and potentially replaced.
+   * @param {DefinedAddressLike} replaceIf address to compare against the input address.
+   * @param {(address: Address) => Address} replacer function to apply to the address if it matches the replaceIf.
+   * @return {Address} original address or the result of applying the replacer function to the address.
+   */
+  public replaceAddress(address: DefinedAddressLike, replaceIf: DefinedAddressLike, replacer: (address: Address) => Address): Address {
+    const _address = Address.from(address)
+
+    if (_address.equalTo(replaceIf)) return replacer(_address)
+
+    return _address
+  }
+
   /**
    * Checks if a given address exists in an array of addresses.
    * Performs a case-insensitive comparison by converting all addresses to lowercase strings.
@@ -15,8 +46,9 @@ export default class AddressActions extends AddressTypeChecks {
    * @param array - The array of addresses to search in.
    * @returns `true` if the address is found in the array, otherwise `false`.
    */
-  public static inArray(address: Address | string, array: (string | Address)[]): boolean {
-    return array.map(i => i.toString().toLowerCase()).includes(address.toString().toLowerCase())
+  public static inArray(address: AddressLike, array: AddressLike[]): boolean {
+    return arrayUtils.nonNullable(array.map(i => i?.toString().toLowerCase()))
+      .some(a => a === address?.toString().toLowerCase())
   }
 
   /**
@@ -63,7 +95,7 @@ export default class AddressActions extends AddressTypeChecks {
 
   /**
    * Checks if the first Ethereum address is less than or equal to the second Ethereum address.
-   * Combines equality and less-than checks.
+   * Combines equality and fewer-than checks.
    *
    * @param addressA - The first address to compare.
    * @param addressB - The second address to compare.
