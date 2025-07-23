@@ -34,11 +34,11 @@ export const evmNetworksList: Set<Network> = new Set([
   avalanche,
   scroll,
   gnosis,
-  base,
-  units
+  base
 ])
 
 export const networksList: Set<Network> = new Set([
   ...evmNetworksList,
-  tron
+  tron,
+  units
 ])
