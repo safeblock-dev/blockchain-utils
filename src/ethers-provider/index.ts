@@ -15,7 +15,7 @@ const fallbackProviders: { current: Map<string, IProviderCreateDetails>, customO
 }
 
 /**
- * Reconfigure stored providers list with new nodes or params
+ * Reconfigure a stored providers list with new nodes or params
  *
  * @param {Record<string, string[]>} attachNodes list of additional nodes
  * @param {boolean} prioritizeAttached prioritize attached nodes over default public nodes
@@ -24,27 +24,33 @@ const fallbackProviders: { current: Map<string, IProviderCreateDetails>, customO
 export function reconfigureProvidersList(
   attachNodes?: Record<string, string[]>,
   prioritizeAttached: boolean = false,
-  customOptions?: Omit<FallbackProviderCustomOptions, "attachNodes" | "prioritizeAttached">
+  customOptions?: Omit<FallbackProviderCustomOptions, "attachNodes" | "prioritizeAttached"> & {
+    /** Attach custom networks to the list of providers */
+    customNetworks?: Network[]
+  }
 ) {
-  fallbackProviders.customOptions = customOptions
-  fallbackProviders.current = new Map(Array.from(evmNetworksList).map(network => {
-    const attachedNodesList = attachNodes?.[network.name]
+  const { customNetworks, ...rest } = customOptions ?? {}
 
-    return [
-      network.name,
-      {
-        attachedNodesList: attachedNodesList ?? [],
-        network,
-        prioritizeAttached
-      }
-    ]
-  }))
+  fallbackProviders.customOptions = rest
+  fallbackProviders.current = new Map(Array.from([...evmNetworksList, ...customNetworks ?? []])
+    .map(network => {
+      const attachedNodesList = attachNodes?.[network.name]
+
+      return [
+        network.name,
+        {
+          attachedNodesList: attachedNodesList ?? [],
+          network,
+          prioritizeAttached
+        }
+      ]
+    }))
 }
 
 reconfigureProvidersList()
 
 /**
- * Get a public provider of relative network
+ * Get a public provider of a relative network
  *
  * @param {Network} network EVM network
  */
