@@ -45,7 +45,7 @@
     "url": "https://github.com/safeblock-dev/blockchain-utils/issues"
   },
   "homepage": "https://github.com/safeblock-dev/blockchain-utils#readme",
-  "dependencies": {
+  "peerDependencies": {
     "bignumber.js": "^9.3.1",
     "ethers": "^6.15.0"
   }
